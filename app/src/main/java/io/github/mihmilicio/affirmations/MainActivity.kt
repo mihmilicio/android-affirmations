@@ -1,8 +1,9 @@
 package io.github.mihmilicio.affirmations
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
+import io.github.mihmilicio.affirmations.adapter.ItemAdapter
 import io.github.mihmilicio.affirmations.data.Datasource
 
 class MainActivity : AppCompatActivity() {
@@ -10,7 +11,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val textView: TextView = findViewById(R.id.textview)
-        textView.text = Datasource().loadAffirmations().size.toString()
+        val myDataset = Datasource().loadAffirmations()
+
+        val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
+        recyclerView.adapter = ItemAdapter(this, myDataset)
+
+        // use for performance reasons when you know the changes in content DON'T change the recycler view size
+        recyclerView.setHasFixedSize(true)
+
     }
 }
